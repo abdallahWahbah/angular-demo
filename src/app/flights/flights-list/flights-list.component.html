@@ -1,0 +1,11 @@
+<div *ngFor="let flight of flights" class="flight-wrap" (click)="handleChoose(flight)">
+    <div class="row">
+        <div class="col-sm-4">
+            <!-- <img src="{{flight.destinationImage}}" alt="destination"> -->
+            <img [src]="flight.destinationImage" alt="destination">
+        </div>
+        <div class="col-sm-8" style="display: flex; justify-content:center; flex-direction: column;">
+            <span style="font-weight: bold;">{{flight.to}}</span>
+        </div>
+    </div>
+</div>

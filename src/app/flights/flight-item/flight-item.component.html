@@ -1,0 +1,27 @@
+<div class="container">
+
+    <button 
+        class="btn btn-success"
+        (click)="handleNavigation(selectedFlight.id)"
+        style="margin-bottom: 20px;"
+    >
+        Edit Flight
+    </button>
+
+    <p>To: <span style="font-weight: bold;">{{selectedFlight.to}}</span></p>
+
+    <p>
+        From: 
+        <span 
+            style="font-weight: bold;"
+            [ngStyle]="{color: selectedFlight.from === 'Egypt' ? 'red' :'black'}"
+            [ngClass]="{increaseFontSize: selectedFlight.from === 'Egypt'}"
+        >
+            {{selectedFlight.from}}
+        </span>
+    </p>
+
+    <p>Date: <span style="font-weight: bold;">{{selectedFlight.date | date: "shortTime"}}</span></p>
+
+    <img class="destination__image" src="{{selectedFlight.destinationImage}}" alt="destinationImage">
+</div>
