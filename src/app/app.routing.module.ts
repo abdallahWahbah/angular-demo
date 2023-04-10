@@ -5,15 +5,22 @@ import { FlightItemComponent } from "./flights/flight-item/flight-item.component
 import { FlightsComponent } from "./flights/flights.component";
 import { HomeComponent } from "./home/home.component";
 import { NotFoundComponent } from "./not-found/not-found.component";
+import { FlightResolverService } from "./flights/flight.resolver.service";
+import { AuthComponent } from "./auth/auth.component";
+import { AuthGuard } from "./auth/auth.guard";
 
 
 const appRoutes: Routes = [
     {path: "", component: HomeComponent},
-    {path: "flights", component: FlightsComponent, children:[
+    {path: "flights", 
+        component: FlightsComponent, 
+        canActivate: [AuthGuard],
+        children:[
         {path: "new", component: FlightEditComponent},
-        {path: ":id", component: FlightItemComponent},
-        {path: ":id/edit", component: FlightEditComponent}
+        {path: ":id", component: FlightItemComponent, resolve: [FlightResolverService]},
+        {path: ":id/edit", component: FlightEditComponent, resolve: [FlightResolverService]}
     ]},
+    {path: "auth", component: AuthComponent},
     {path: "not-found", component: NotFoundComponent},
     {path: "**", redirectTo: "not-found"}
 ]
