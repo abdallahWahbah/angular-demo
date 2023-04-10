@@ -8,28 +8,28 @@ export class FlightsService
 
     private flights = [
         {
-          id: 1,
+          id: 0,
           from: "Egypt",
           to: "Jordan",
           date: new Date("2023-4-21"),
           destinationImage: "https://jordantraveler.com/wp-content/uploads/2022/05/Amman-Itinerary-Hero.png"
         },
         {
-          id: 2,
+          id: 1,
           from: "Lebanon",
           to: "Saudi Arabia",
           date: new Date("2023-5-16"),
           destinationImage: "https://www.worldbank.org/content/dam/photos/780x439/2022/feb-3/Saudi-Arabia-Riyadh.jpg"
         },
         {
-          id: 3,
+          id: 2,
           from: "Quatar",
           to: "United Arab Emirates",
           date: new Date("2023-4-1"),
           destinationImage: "https://s30876.pcdn.co/wp-content/uploads/United-Arab-Emirates.jpg.optimal.jpg"
         },
         {
-          id: 4,
+          id: 3,
           from: "Jordan",
           to: "Egypt",
           date: new Date("2023-3-29"),

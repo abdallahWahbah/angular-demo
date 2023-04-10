@@ -33,6 +33,6 @@ export class FlightsListComponent implements OnInit{
   handleChoose(comingFlight: Flight)
   {
     this.flightService.selectedFlight.emit(comingFlight);
-    this.router.navigate(['/flights', comingFlight.id - 1])
+    this.router.navigate(['/flights', comingFlight.id])
   }
 }

@@ -23,12 +23,12 @@ export class FlightEditComponent implements OnInit{
 
   ngOnInit(): void {
     
-    this.editableFlight = JSON.parse(JSON.stringify(this.flightService.getFLight(+this.route.snapshot.params["id"] - 1)))
+    this.editableFlight = JSON.parse(JSON.stringify(this.flightService.getFLight(+this.route.snapshot.params["id"])))
   
     this.route.params.subscribe((params: Params) =>
     {
       // this.editableFlight = this.flightService.getFLight(+this.route.snapshot.params["id"] - 1) // i made the following 2 lines of code vause the date initial value doesn't work properly
-      let flight = this.flightService.getFLight(+this.route.snapshot.params["id"] - 1);
+      let flight = this.flightService.getFLight(+this.route.snapshot.params["id"]);
       this.editableFlight = JSON.parse(JSON.stringify({
                               id: flight.id,
                               to: flight.to,
@@ -44,7 +44,7 @@ export class FlightEditComponent implements OnInit{
     if(this.editableFlight.id === Infinity)
     {
       this.flightService.addFlight({
-        id: this.flightService.getFlights().length + 1,
+        id: this.flightService.getFlights().length,
         to: this.formData.value.destination,
         from: this.formData.value.departure,
         date: this.formData.value.date,
@@ -53,7 +53,7 @@ export class FlightEditComponent implements OnInit{
     }
     else
     {
-      this.flightService.updateFlight(this.editableFlight.id - 1, {
+      this.flightService.updateFlight(this.editableFlight.id, {
         id: this.editableFlight.id,
         to: this.formData.value.destination,
         from: this.formData.value.departure,
