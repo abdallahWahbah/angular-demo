@@ -8,6 +8,7 @@ import { FlightsService } from './flights.service';
   selector: 'app-flights',
   templateUrl: './flights.component.html',
   styleUrls: ['./flights.component.css'],
+  providers: []
 })
 export class FlightsComponent{
   selectedFlight: Flight;

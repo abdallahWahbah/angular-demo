@@ -62,11 +62,10 @@
   </div>
    -->
 
-
    <div class="container">
     <div class="row">
         <div class="col-xs-6">
-            <form (ngSubmit)="onSubmit()" [formGroup]="formData">
+            <form [formGroup]="formData" (ngSubmit)="onSubmit()">
                 <div class="form-group">
                     <label for="destination">Destination</label>
                     <input 
@@ -76,7 +75,12 @@
                         formControlName="destination"
                     >
                     <span *ngIf="!formData.get('destination')?.valid && formData.get('destination')?.touched">
-                        Destination is required
+                        <span *ngIf="formData.get('destination')?.errors?.['County is not allowed']">
+                            Country is not allowed
+                        </span>
+                        <span *ngIf="formData.get('destination')?.errors?.['required']">
+                            Destination is required
+                        </span>
                     </span>
                 </div>
 
@@ -88,13 +92,8 @@
                         class="form-control"
                         formControlName="departure"
                     >
-                    <span *ngIf="!formData.get('departure')?.valid && formData.get('departure')?.touched">
-                        <span *ngIf="formData.get('departure')?.errors?.['countryIsNotAllowed']">
-                            Country is not allowed
-                        </span>
-                        <span *ngIf="formData.get('departure')?.errors?.['required']">
-                            Departure is required
-                        </span>
+                    <span *ngIf="!formData.get('destination')?.valid && formData.get('destination')?.touched">
+                        Departure field is required
                     </span>
                 </div>
 

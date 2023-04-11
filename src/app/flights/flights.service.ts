@@ -1,7 +1,6 @@
-import { EventEmitter, Injectable } from "@angular/core"
+import { EventEmitter } from "@angular/core"
 import { Flight } from "./flights-list/flights-list.component"
 
-@Injectable({providedIn: "root"})
 export class FlightsService
 {
     selectedFlight = new EventEmitter<Flight>()
@@ -37,8 +36,7 @@ export class FlightsService
     //       destinationImage: "https://cdn.mos.cms.futurecdn.net/YMa7Wx2FyjQFUjEeqa72Rm-1200-80.jpg"
     //     },
     // ]
-
-    private flights: Flight[] = [];
+    flights: Flight[] = [];
 
     setFlights(flights: Flight[])
     {

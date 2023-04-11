@@ -25,8 +25,12 @@ export class FlightsListComponent implements OnInit{
 
   ngOnInit(): void {
 
-    this.flightsFirebase.getAllFlightsFirebase().subscribe(response => this.flightService.setFlights(response))
     // this.flights = this.flightService.getFlights()
+    this.flightsFirebase.getFlightsFirebase().subscribe(response => {
+      // console.log(response)
+      this.flightService.setFlights(response);
+      this.flights = response
+    })
 
     this.flightService.flightsChanged.subscribe(flights => 
     {
@@ -36,12 +40,13 @@ export class FlightsListComponent implements OnInit{
 
   handleChoose(comingFlight: Flight)
   {
+    // console.log(comingFlight)
     this.flightService.selectedFlight.emit(comingFlight);
     this.router.navigate(['/flights', comingFlight.id])
   }
 
-  storeFlights()
+  saveAllFlights()
   {
-    this.flightsFirebase.storeFlightsFirebase(this.flights);
+    this.flightsFirebase.storeAllFlights(this.flights);
   }
 }

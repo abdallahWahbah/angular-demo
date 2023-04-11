@@ -1,5 +1,9 @@
-<button class="btn btn-success" (click)="storeFlights()">
-    Store All Flight
+<button 
+    class="btn btn-success"
+    (click)="saveAllFlights()"
+    style="margin-bottom: 20px;"
+>
+    Save All Flights
 </button>
 <div *ngFor="let flight of flights" class="flight-wrap" (click)="handleChoose(flight)">
     <div class="row">

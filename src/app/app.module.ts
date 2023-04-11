@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 
 import { AppComponent } from './app.component';
 import { FlightsComponent } from './flights/flights.component';
@@ -12,7 +12,10 @@ import { FlightEditComponent } from './flights/flight-edit/flight-edit.component
 import { AppRoutingModule } from './app.routing.module';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ReversePipe } from './reverse.pipe';
+import { FlightsService } from './flights/flights.service';
+import { HeaderComponent } from './header/header.component';
 import { AuthComponent } from './auth/auth.component';
+import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { AuthInterceptorService } from './auth/auth.interceptor.service';
 
 @NgModule({
@@ -25,20 +28,23 @@ import { AuthInterceptorService } from './auth/auth.interceptor.service';
     FlightEditComponent,
     NotFoundComponent,
     ReversePipe,
+    HeaderComponent,
     AuthComponent,
+    LoadingSpinnerComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [
+    FlightsService, 
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
-      multi: true
+      multi: true,
     }
   ],
   bootstrap: [AppComponent]

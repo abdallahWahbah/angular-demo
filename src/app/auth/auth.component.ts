@@ -11,8 +11,8 @@ import { Router } from '@angular/router';
 export class AuthComponent {
 
   isLoginMode = true;
+  isLoading = false;
   error: string;
-
   constructor(private authService: AuthService,
               private router: Router){}
 
@@ -21,29 +21,35 @@ export class AuthComponent {
     this.isLoginMode = !this.isLoginMode;
   }
 
-  onSubmit(formData: NgForm)
+  onSubmit(form: NgForm)
   {
+    this.isLoading = true;
+
     if(this.isLoginMode)
     {
-      this.authService.login(formData.value.email, formData.value.password)
-      .subscribe(resposne=>
+      this.authService
+      .login(form.value.email, form.value.password)
+      .subscribe(response =>
       {
-        console.log(resposne)
-        this.router.navigate(['/flights'])
+        this.isLoading = false;
+        this.router.navigate(["/flights"])
       }, error =>
       {
+        this.isLoading = false;
         switch(error.error.error.message)
         {
-          case "EMAIL_NOT_FOUND":{
-            this.error = "The email you entered doesn't exist";
+          case "EMAIL_NOT_FOUND":
+          {
+            this.error = "The email you entered is not found";
             break;
           }
-          case "INVALID_PASSWORD":{
-            this.error = "Invalid password";
+          case "INVALID_PASSWORD":
+          {
+            this.error = "wrong password";
             break;
           }
           default: {
-            this.error = "Unknown error";
+            this.error = "Error Occured";
             break;
           }
         }
@@ -51,25 +57,29 @@ export class AuthComponent {
     }
     else
     {
-      this.authService.signup(formData.value.email, formData.value.password)
+      this.authService
+      .signup(form.value.email, form.value.password)
       .subscribe(response =>
       {
+        this.isLoading = false;
         console.log(response)
-        this.router.navigate(['/flights'])
-      }, error =>
+      },error =>
       {
+        this.isLoading = false;
         switch(error.error.error.message)
         {
-          case "EMAIL_EXISTS":{
+          case "EMAIL_EXISTS":
+          {
             this.error = "The email you entered exists";
             break;
           }
-          case "TOO_MANY_ATTEMPTS_TRY_LATER":{
-            this.error = "You tried to signup too many times, try again later";
+          case "TOO_MANY_ATTEMPTS_TRY_LATER":
+          {
+            this.error = "Try again later";
             break;
           }
           default: {
-            this.error = "Unknown error";
+            this.error = "Error Occured";
             break;
           }
         }

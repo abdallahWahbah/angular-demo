@@ -23,12 +23,12 @@
 
 //   ngOnInit(): void {
     
-//     this.editableFlight = JSON.parse(JSON.stringify(this.flightService.getFLight(+this.route.snapshot.params["id"])))
+//     this.editableFlight = JSON.parse(JSON.stringify(this.flightService.getFLight(+this.route.snapshot.params["id"] - 1)))
   
 //     this.route.params.subscribe((params: Params) =>
 //     {
 //       // this.editableFlight = this.flightService.getFLight(+this.route.snapshot.params["id"] - 1) // i made the following 2 lines of code vause the date initial value doesn't work properly
-//       let flight = this.flightService.getFLight(+this.route.snapshot.params["id"]);
+//       let flight = this.flightService.getFLight(+this.route.snapshot.params["id"] - 1);
 //       this.editableFlight = JSON.parse(JSON.stringify({
 //                               id: flight.id,
 //                               to: flight.to,
@@ -44,7 +44,7 @@
 //     if(this.editableFlight.id === Infinity)
 //     {
 //       this.flightService.addFlight({
-//         id: this.flightService.getFlights().length,
+//         id: this.flightService.getFlights().length + 1,
 //         to: this.formData.value.destination,
 //         from: this.formData.value.departure,
 //         date: this.formData.value.date,
@@ -53,7 +53,7 @@
 //     }
 //     else
 //     {
-//       this.flightService.updateFlight(this.editableFlight.id, {
+//       this.flightService.updateFlight(this.editableFlight.id - 1, {
 //         id: this.editableFlight.id,
 //         to: this.formData.value.destination,
 //         from: this.formData.value.departure,
@@ -67,6 +67,7 @@
   
 // }
 
+
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {Router, ActivatedRoute, Params} from "@angular/router";
@@ -74,6 +75,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { Flight } from '../flights-list/flights-list.component';
 import { FlightsService } from '../flights.service';
+import { FlightsFirebaseService } from '../flights-firebase.service';
 
 @Component({
   selector: 'app-flight-edit',
@@ -89,55 +91,56 @@ export class FlightEditComponent implements OnInit{
   constructor(private flightService: FlightsService,
               private router: Router,
               private route: ActivatedRoute,
-              private http: HttpClient){}
+              private flightsFirebase: FlightsFirebaseService){}
 
 
   ngOnInit(): void {
-    
-    if(!+this.route.snapshot.params["id"]  && (+this.route.snapshot.params["id"] !== 0))
+
+    if(!+this.route.snapshot.params["id"] && (+this.route.snapshot.params["id"] !== 0))
     {
-      this.initializeForm("", "", "", "");
+      this.formInitilization("", "", "", "");
       return;
     }
 
     this.editableFlight = JSON.parse(JSON.stringify(this.flightService.getFLight(+this.route.snapshot.params["id"])))
-  
+  console.log(this.editableFlight)
     this.route.params.subscribe((params: Params) =>
     {
-      // this.editableFlight = this.flightService.getFLight(+this.route.snapshot.params["id"] - 1) // i made the following 2 lines of code vause the date initial value doesn't work properly
       let flight = this.flightService.getFLight(+this.route.snapshot.params["id"]);
       this.editableFlight = JSON.parse(JSON.stringify({
-                              ...flight,
+                            ...flight,
                               date: new Date(flight.date).toISOString().slice(0, 10),
                             }))
-
-      this.initializeForm(flight.to, flight.from, new Date(flight.date).toISOString().slice(0, 10), flight.destinationImage)
+      this.formInitilization(flight.to, flight.from, new Date(flight.date).toISOString().slice(0, 10), flight.destinationImage)
     })
   }
-  initializeForm(destination: string, departure: string, date: string, image: string)
+
+  formInitilization(destination: string, departure: string, date: string, image: string)
   {
     this.formData = new FormGroup({
-      destination: new FormControl(destination, [Validators.required]),
-      departure: new FormControl(departure, [Validators.required, this.allowedCountries]),
+      destination: new FormControl(destination, [Validators.required, this.allowedCountries]),
+      departure: new FormControl(departure, [Validators.required]),
       date: new FormControl(date),
-      image: new FormControl(image),
+      image: new FormControl(image)
     })
   }
 
-  allowedCountries(formControl: FormControl)
+  allowedCountries(control: FormControl)
   {
-    const countries = ["Saudi Arabia", "Egypt", "Jordan"];
-    if(countries.indexOf(formControl.value) === -1 && formControl.value.split("").length !== 0)
+    const countries = ["Egypt", "Saudi Arabia", "Jordan", "Lebanon", "United Arab Emirates"];
+    if(countries.indexOf(control.value) === -1 && control.value.split("").length !== 0)
     {
-      return {"countryIsNotAllowed": true}
+      return {"County is not allowed": true}
     }
     return null
   }
 
   onSubmit()
   {
+    // this.flightsFirebase.postFlightFirebase(this.formData)
     if(this.editableFlight.id === Infinity)
     {
+      console.log("new")
       this.flightService.addFlight({
         id: this.flightService.getFlights().length,
         to: this.formData.value.destination,
@@ -157,6 +160,4 @@ export class FlightEditComponent implements OnInit{
       })
     }
   }
-
-  
 }

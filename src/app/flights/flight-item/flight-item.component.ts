@@ -17,7 +17,9 @@ export class FlightItemComponent implements OnInit{
               private router: Router){}
 
   ngOnInit(): void {
-
+    // console.log(this.flightService.getFlights())
+    
+    console.log(this.flightService.getFLight(+this.route.snapshot.params["id"]))
     this.selectedFlight = this.flightService.getFLight(+this.route.snapshot.params["id"])
 
     this.route.params.subscribe((params: Params) =>
